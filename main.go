@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"encoding/json"
 	"net/http"
@@ -66,10 +65,10 @@ func handleError(w http.ResponseWriter) {
 }
 
 func main() {
-	err := godotenv.Load()
-  if err != nil {
-    log.Fatal(err)
-  }
+	// err := godotenv.Load()
+  // if err != nil {
+  //   log.Fatal(err)
+  // }
 
 	router := mux.NewRouter()
 	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
@@ -78,7 +77,7 @@ func main() {
 
 	router.HandleFunc("/balance/{address}", GetBalance).Methods("GET")
 
-	fmt.Println("Start server in port " + os.Getenv("PORT"))
+	log.Print("Start server in port " + os.Getenv("PORT"))
 
 	log.Fatal(http.ListenAndServe(":" + os.Getenv("PORT"), handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router)))
 }
