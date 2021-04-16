@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"encoding/json"
 	"net/http"
@@ -76,6 +77,8 @@ func main() {
 	allowedMethods := handlers.AllowedMethods([]string{"GET"})
 
 	router.HandleFunc("/balance/{address}", GetBalance).Methods("GET")
+
+	fmt.Println("Start server in port " + os.Getenv("PORT"))
 
 	log.Fatal(http.ListenAndServe(":" + os.Getenv("PORT"), handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router)))
 }
