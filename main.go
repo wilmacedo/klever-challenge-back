@@ -77,5 +77,5 @@ func main() {
 
 	router.HandleFunc("/balance/{address}", GetBalance).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":3333", handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router)))
+	log.Fatal(http.ListenAndServe(":" + os.Getenv("PORT"), handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router)))
 }
