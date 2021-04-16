@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"io/ioutil"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/handlers"
 	"github.com/joho/godotenv"
 	"os"
 	"strconv"
@@ -70,8 +71,11 @@ func main() {
   }
 
 	router := mux.NewRouter()
+	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
+	allowedOrigins := handlers.AllowedOrigins([]string{"*"})
+	allowedMethods := handlers.AllowedMethods([]string{"GET"})
 
 	router.HandleFunc("/balance/{address}", GetBalance).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":8000", router))
+	log.Fatal(http.ListenAndServe(":3333", handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router)))
 }
